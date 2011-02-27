@@ -6,7 +6,7 @@
     xml:lang="{% firstof LANGUAGE_CODE 'en' %}"
     lang="{% firstof LANGUAGE_CODE 'en' %}">
   <head>
-    <title>{% block title %}{% endblock %} - Nonrel-testapp</title>
+    <title>{% block title %}{% endblock %} - Feed Sanitizer</title>
 
     {% block css %}
     {% endblock %}
@@ -18,10 +18,6 @@
   </head>
 
   <body>
-    <div id="header">
-      <a id="logo" href="/">Nonrel-testapp</a>
-    </div>
-
     <div class="columns">
       <div id="content" class="column">
         {% block content-header %}
@@ -41,10 +37,6 @@
         {% block sidebar %}
         {% endblock %}
       </div>
-    </div>
-
-    <div id="footer">
-      <p>Powered by <a href="http://www.allbuttonspressed.com/projects/django-nonrel">Django-nonrel</a></p>
     </div>
 
     {% block js %}

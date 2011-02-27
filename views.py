@@ -1,10 +1,13 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.core.urlresolvers import reverse
 
 import logging
+import StringIO
 
 from time import mktime
 from datetime import datetime
+import xml.dom.minidom
 
 import feedparser
 from django.utils import feedgenerator
@@ -22,9 +25,9 @@ def buildfeed(request):
     feedclass = feed_formats[format]
     
     feed = feedclass(\
-        title=result.feed.title,\
-        link=result.feed.link,\
-        feed_url=result.feed.link,\
+        title=result.feed.title or "feed title",\
+        link=result.feed.link or "feed link",\
+        feed_url=result.feed.link or "feed link",\
         description="", \
         )
     for entry in result.entries:
@@ -46,10 +49,22 @@ feed_formats = {
     }
 
 def userfriendly(request):
+    feed = None
+    prettyxml = None
+    urls = []
+    url = None
+    logging.debug(reverse("views.sanitize"))
+    feed_link = "http://%s%s?%s" % ( request.get_host(), reverse("views.sanitize"), request.GET.urlencode() )
+    
     if "url" in request.GET:
-        url = request.GET.getlist("url")
+        urls = request.GET.getlist("url")
+        url = urls[0]
         feed = buildfeed(request)
-    return render_to_response("home.html", {"feed": feed, "url": url})
+        feedxml = StringIO.StringIO()
+        feed.write(feedxml, 'utf-8')
+        prettyxml = xml.dom.minidom.parseString(feedxml.getvalue()).toprettyxml()
+        
+    return render_to_response("home.html", {"feed": feed, "feed_xml": prettyxml, "feed_link": feed_link, "urls": urls, "first_url": url})
 
 def sanitize(request):
     feed = buildfeed(request)

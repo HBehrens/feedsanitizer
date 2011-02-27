@@ -2,10 +2,23 @@
 {% block title %}It works!{% endblock %}
 
 {% block content %}
-<h1>It works!</h1>
+<h1>Sanitize your Feed</h1>
 <!--
-	url: {{url}} 
+	urls: {{urls}} 
 	feed: {{feed}}
 -->
+<form id="form" name="form" method="get" action="/">
+	
+	<label>feed url</label>
+	<input type="text" name="url" class="url" value="{{first_url|default_if_none:""}}" />
+	<input type="submit" class="submit" id="urlsubmit" />
+</form>
+
+{% if feed_xml %}
+<a href="{{feed_link}}">link to sanitized feed</a>
+<pre>
+{{feed_xml}}
+</pre>
+{% endif %}
 
 {% endblock %}

@@ -24,11 +24,12 @@ def buildfeed(request):
 
     format = request.GET.get("format", "rss")
     feedclass = feed_formats[format]
+    feed_link = feed_link = "http://%s%s?%s" % ( request.get_host(), reverse("views.sanitize"), request.GET.urlencode() )
     
     feed = feedclass(\
         title=result.feed.title or "feed title",\
         link=result.feed.link or "feed link",\
-        feed_url=result.feed.link or "feed link",\
+        feed_url=feed_link,\
         description="", \
         )
     for entry in result.entries:

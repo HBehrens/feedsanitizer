@@ -53,7 +53,7 @@ def userfriendly(request):
     prettyxml = None
     urls = []
     url = None
-    logging.debug(reverse("views.sanitize"))
+    format = request.GET.get("format", "rss")
     feed_link = "http://%s%s?%s" % ( request.get_host(), reverse("views.sanitize"), request.GET.urlencode() )
     
     if "url" in request.GET:
@@ -64,7 +64,10 @@ def userfriendly(request):
         feed.write(feedxml, 'utf-8')
         prettyxml = xml.dom.minidom.parseString(feedxml.getvalue()).toprettyxml()
         
-    return render_to_response("home.html", {"feed": feed, "feed_xml": prettyxml, "feed_link": feed_link, "urls": urls, "first_url": url})
+    return render_to_response("home.html", {
+        "feed": feed, "feed_xml": prettyxml, "feed_link": feed_link, "feed_format": format, 
+        "urls": urls, "first_url": url}
+        )
 
 def sanitize(request):
     feed = buildfeed(request)

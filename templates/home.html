@@ -11,6 +11,10 @@
 	
 	<label>feed url</label>
 	<input type="text" name="url" class="url" value="{{first_url|default_if_none:""}}" />
+	<p>
+	<input type="radio" name="format" value="rss" {% ifequal feed_format "rss" %}checked="checked"{% endifequal %} />rss<br />
+	<input type="radio" name="format" value="atom" {% ifequal feed_format "atom" %}checked="checked"{% endifequal %} />atom<br />
+	</p>
 	<input type="submit" class="submit" id="urlsubmit" />
 </form>
 

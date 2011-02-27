@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 
 import logging
 import StringIO
+import feedgenerators
 
 from time import mktime
 from datetime import datetime
@@ -44,7 +45,7 @@ def buildfeed(request):
     return feed
 
 feed_formats = {
-    "rss": feedgenerator.Rss201rev2Feed,
+    "rss": feedgenerators.Rss201rev2FeedModified,
     "atom": feedgenerator.Atom1Feed,
     }
 

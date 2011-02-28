@@ -54,3 +54,21 @@ div.code.syntaxhighlighter{
 */
     max-height: 250px !important;
 }
+
+div#formats div {
+    margin-top: 0em;
+    margin-left: 0.2em;
+/*    border: 1px solid; */
+    display: inline-block;
+    padding-top: 40px;
+    width: 64px;
+    background-position:10px 0px;
+}
+
+div#rssbutton {
+    background: url('/images/feed-icon-rss-32.png') no-repeat;
+}
+
+div#atombutton {
+    background: url('/images/feed-icon-atom-32.png') no-repeat;
+}

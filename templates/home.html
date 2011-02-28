@@ -15,14 +15,17 @@
 <form id="form" name="form" method="get" action="/">
 	
 	<input type="text" name="url" class="url" value="{{first_url|default_if_none:"http://www.heikobehrens.net/feed/"}}" />
-	<p>
-	<div id="rssbutton">
-		<input type="radio" name="format" id="rssbutton" value="rss" {% ifequal feed_format "rss" %}checked="checked"{% endifequal %} />rss
+	<div id="formats">
+		<p>
+		Please choose the output format of the sanitized feed.
+		</p>
+		<div id="rssbutton">
+			<input type="radio" name="format" id="rssbutton" value="rss" {% ifequal feed_format "rss" %}checked="checked"{% endifequal %} />rss
+		</div>
+		<div id="atombutton">
+			<input type="radio" name="format" id="atombutton" value="atom" {% ifequal feed_format "atom" %}checked="checked"{% endifequal %} />atom
+		</div>
 	</div>
-	<div id="atombutton">
-		<input type="radio" name="format" id="atombutton" value="atom" {% ifequal feed_format "atom" %}checked="checked"{% endifequal %} />atom
-	</div>
-	</p>
 	<input type="submit" class="submit" id="urlsubmit" />
 </form>
 </div>

@@ -7,10 +7,16 @@ body {
     line-height: 1.35em;
     padding-left: 5%;
     padding-right: 5%;
+    padding-top: 1em;
+}
+
+h1 {
+    line-height: 100%;
 }
 
 div#content {
     max-width: 900px;
+    min-width: 400px;
     margin-left: auto;
     margin-right: auto;
 }

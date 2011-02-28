@@ -9,10 +9,10 @@
 {% endblock %}
 {% block content %}
 <div id="input">
-<h1>Provide Your Contaminated Feed</h1>
+<h1><emph>The Feed Sanitizer</emph> takes your contaminated feed</h1>
 <p>
-The Feed Sanitizer takes any news feed and turns it into straight RSS 2.0/ ATOM 1.0.
-This comes in handy if you are confronting with knocked up feeds that are barely well-formed and want to parse these with a not-so-solid piece of software.
+The Feed Sanitizer takes <span title="Handles RSS 0.9x, RSS 1.0, RSS 2.0, CDF, Atom 0.3, and Atom 1.0 feeds">any news feed</span> and turns it into straight, normalized RSS 2.0/ ATOM 1.0.
+This comes in handy if you are confronting with tangled or messed or knocked up feeds that are barely well-formed and want to parse these with a not-so-solid piece of software.
 The Feed Sanitizer scrubs off the dirt and returns germ-free feeds.
 </p>
 <form id="form" name="form" method="get" action="/">
@@ -35,7 +35,7 @@ The Feed Sanitizer scrubs off the dirt and returns germ-free feeds.
 </div>
 {% if feed_xml %}
 <div id="result">
-<h1>Take the Sanitized Result</h1>
+<h1>You joyfully receive the sanitized result</h1>
 <form name="result">
 	Please copy the the link of the sanitized feed to your clipboard.
 	<input type="text" name="result" class="url" value="{{feed_link}}" readonly="readonly"/>

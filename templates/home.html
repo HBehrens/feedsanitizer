@@ -1,28 +1,40 @@
 {% extends 'base.html' %}
 {% block title %}It works!{% endblock %}
-
+{% block extra-head %}
+{% if feed_xml %}
+<script type="text/javascript" src="/scripts/shCore.js"></script>
+<script type="text/javascript" src="/scripts/shBrushXml.js"></script>
+<link type="text/css" rel="stylesheet" href="/styles/shCoreDefault.css"/>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+{% endif %}
+{% endblock %}
 {% block content %}
-<h1>Sanitize your Feed</h1>
-<!--
-	urls: {{urls}} 
-	feed: {{feed}}
--->
+<div id="input">
+<h1>Provide Your Contaminated Feed</h1>
+
 <form id="form" name="form" method="get" action="/">
 	
 	<label>feed url</label>
 	<input type="text" name="url" class="url" value="{{first_url|default_if_none:""}}" />
 	<p>
-	<input type="radio" name="format" value="rss" {% ifequal feed_format "rss" %}checked="checked"{% endifequal %} />rss<br />
-	<input type="radio" name="format" value="atom" {% ifequal feed_format "atom" %}checked="checked"{% endifequal %} />atom<br />
+	<div id="rssbutton">
+		<input type="radio" name="format" id="rssbutton" value="rss" {% ifequal feed_format "rss" %}checked="checked"{% endifequal %} />rss
+	</div>
+	<div id="atombutton">
+		<input type="radio" name="format" id="atombutton" value="atom" {% ifequal feed_format "atom" %}checked="checked"{% endifequal %} />atom
+	</div>
 	</p>
 	<input type="submit" class="submit" id="urlsubmit" />
 </form>
-
+</div>
 {% if feed_xml %}
-<a href="{{feed_link}}">link to sanitized feed</a>
-<pre>
+<div id="result">
+<h1>Take the Sanitized Result</h1>
+<a id="feedlink" href="{{feed_link}}">link to sanitized feed</a>
+<pre class="brush: xml; class-name: 'code'; gutter: false;">
 {{feed_xml}}
 </pre>
+</div>
 {% endif %}
 
 {% endblock %}

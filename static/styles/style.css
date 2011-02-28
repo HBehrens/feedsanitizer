@@ -1,0 +1,53 @@
+body {
+    color: #333;
+    font-family: Helvetica, Geneva, Arial, sans-serif;
+    font-size: 1em;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1.35em;
+}
+
+body {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+div#input {
+    border: solid #ADADAD;
+    border-bottom-left-radius: 5px 5px;
+    border-bottom-right-radius: 5px 5px;
+    border-top-left-radius: 5px 5px;
+    border-top-right-radius: 5px 5px;
+    padding: 0.5em;    
+}
+
+div#result {
+    border: solid #ADADAD;
+    border-bottom-left-radius: 5px 5px;
+    border-bottom-right-radius: 5px 5px;
+    border-top-left-radius: 5px 5px;
+    border-top-right-radius: 5px 5px;
+    padding: 0.5em;    
+}
+
+h1 {
+    text-align: center;
+}
+
+form label {
+    font-size: larger;
+}
+
+input.url {
+    width: 80%;
+    font-size: larger;
+}
+
+div.code.syntaxhighlighter{
+/*    
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 80% !important;
+*/
+    max-height: 250px !important;
+}

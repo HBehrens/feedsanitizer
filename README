@@ -3,8 +3,6 @@ It's open source and published under the MIT License.
 
 You can see the running version at http://feedsanitizer.appspot.com/
 
-This simple web application has been written with Python and djangoappengine 
-
 Heiko Behrens http://HeikoBehrens.net built The Feed Sanitizer with 
 Python and djangoappengine (hence the large setup) to be execute by the fabulous Google App Engine 
 using several open-source libraries such as

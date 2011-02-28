@@ -46,6 +46,33 @@ input.url {
     border: solid 1px #CCCCCC;
 }
 
+form#form input.url {
+    width: 99%;
+}
+
+hr {
+    border: none;
+    border-top: solid 1px #CCCCCC;
+}
+
+input#urlsubmit {
+    margin-top: 0.2em;
+    font-size: larger;
+    border: solid 2px #CCCCCC;
+    color: #333;
+    border-radius:5px;
+    -moz-border-radius:5px;
+    background: -moz-linear-gradient(top, #f4f4f4 0%, #ececec 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f4f4f4), color-stop(100%,#ececec));
+}
+
+input#urlsubmit:hover {
+    border-color: #3766a1;
+    color: white;
+    background: -moz-linear-gradient(top, #689dde 0%, #4074b4 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#689dde), color-stop(100%,#4074b4));
+}
+
 div.code.syntaxhighlighter{
 /*    
     margin-left: auto !important;

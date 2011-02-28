@@ -1,2 +1,3 @@
 *.pyc
 /.gaedata/
+/.DS_Store

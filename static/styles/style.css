@@ -41,13 +41,9 @@ div#input {
 }
 
 input.url {
-    width: 95%;
+    width: 99%;
     font-size: larger;
     border: solid 1px #CCCCCC;
-}
-
-form#form input.url {
-    width: 99%;
 }
 
 hr {

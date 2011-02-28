@@ -10,9 +10,13 @@
 {% block content %}
 <div id="input">
 <h1>Provide Your Contaminated Feed</h1>
-
+<p>
+The Feed Sanitizer takes any news feed and turns it into straight RSS 2.0/ ATOM 1.0.
+This comes in handy if you are confronting with knocked up feeds that are barely well-formed and want to parse these with a not-so-solid piece of software.
+The Feed Sanitizer scrubs off the dirt and returns germ-free feeds.
+</p>
 <form id="form" name="form" method="get" action="/">
-	
+	What's the URL of the feed you are struggling with?
 	<input type="text" name="url" class="url" value="{{first_url|default_if_none:"http://www.heikobehrens.net/feed/"}}" />
 	<div id="formats">
 		<p>
@@ -37,7 +41,7 @@
 	<input type="text" name="result" class="url" value="{{feed_link}}" readonly="readonly"/>
 	</form>
 <p>
-You can also follow the <a id="feedlink" class="feedformat_{{feed_format}}" href="{{feed_link}}">link to the sanitized feed</a> to open your feed aggregator.
+You can also follow the <a id="feedlink" class="feedformat_{{feed_format}}" href="{{feed_link}}">link to the sanitized feed</a> to fire up your feed aggregator.
 </p>
 <p>If you are curious, click on "expand source" to see how the result looks like.</p>
 <pre class="brush: xml; class-name: 'code'; gutter: false; collapse: true;">

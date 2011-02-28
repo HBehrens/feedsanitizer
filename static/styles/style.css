@@ -12,35 +12,35 @@ body {
     padding-right: 5%;
 }
 
-div#input {
-    border: solid #ADADAD;
-    border-bottom-left-radius: 5px 5px;
-    border-bottom-right-radius: 5px 5px;
-    border-top-left-radius: 5px 5px;
-    border-top-right-radius: 5px 5px;
-    padding: 0.5em;    
-}
-
-div#result {
-    border: solid #ADADAD;
-    border-bottom-left-radius: 5px 5px;
-    border-bottom-right-radius: 5px 5px;
-    border-top-left-radius: 5px 5px;
-    border-top-right-radius: 5px 5px;
-    padding: 0.5em;    
-}
-
-h1 {
-    text-align: center;
-}
-
 form label {
     font-size: larger;
 }
 
+div#input, div#result {
+    margin-top: 1em;
+    padding: 0.5em;
+    background: #FAFAFA;
+    border: 1px solid #DDDDDD;
+/*
+    -moz-box-shadow: 0 0 2px #888;
+    -webkit-box-shadow: 0 0 2px #888;
+    box-shadow: 0 0 2px #888;
+*/
+}
+
+div#input {
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
 input.url {
-    width: 80%;
+    width: 95%;
     font-size: larger;
+    border: solid 1px #CCCCCC;
 }
 
 div.code.syntaxhighlighter{

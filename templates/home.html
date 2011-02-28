@@ -14,8 +14,7 @@
 
 <form id="form" name="form" method="get" action="/">
 	
-	<label>feed url</label>
-	<input type="text" name="url" class="url" value="{{first_url|default_if_none:""}}" />
+	<input type="text" name="url" class="url" value="{{first_url|default_if_none:"http://www.heikobehrens.net/feed/"}}" />
 	<p>
 	<div id="rssbutton">
 		<input type="radio" name="format" id="rssbutton" value="rss" {% ifequal feed_format "rss" %}checked="checked"{% endifequal %} />rss
@@ -30,8 +29,15 @@
 {% if feed_xml %}
 <div id="result">
 <h1>Take the Sanitized Result</h1>
-<a id="feedlink" href="{{feed_link}}">link to sanitized feed</a>
-<pre class="brush: xml; class-name: 'code'; gutter: false;">
+<form name="result">
+	Please copy the the link of the sanitized feed to your clipboard.
+	<input type="text" name="result" class="url" value="{{feed_link}}" readonly="readonly"/>
+	</form>
+<p>
+You can also follow the <a id="feedlink" class="feedformat_{{feed_format}}" href="{{feed_link}}">link to the sanitized feed</a> to open your feed aggregator.
+</p>
+<p>If you are curious, click on "expand source" to see how the result looks like.</p>
+<pre class="brush: xml; class-name: 'code'; gutter: false; collapse: true;">
 {{feed_xml}}
 </pre>
 </div>

@@ -23,17 +23,21 @@
 			ev.preventDefault();
 		});
 		// select all text for feed url on focus
-		$('div#result form input.url').focus(function(){
+		$('input.url').focus(function(){
 			this.select();
 		}).mouseup(function(e){
 			e.preventDefault()
+		});
+		// easy clicking for radio buttons
+		$('div.radio').click(function(){
+			$('input', this).attr('checked', true);
 		});
 	});
 </script>
 {% endblock %}
 {% block content %}
 <div id="input">
-<h1><emph>The Feed Sanitizer</emph> takes your contaminated feed</h1>
+<h1><emph>The Feed Sanitizer</emph> wants your contaminated feed</h1>
 <p>
 The Feed Sanitizer takes <span title="Handles RSS 0.9x, RSS 1.0, RSS 2.0, CDF, Atom 0.3, and Atom 1.0 feeds">any news feed</span> and turns it into straight, normalized RSS 2.0/ ATOM 1.0.
 This comes in handy if you are confronting with tangled or messed or knocked up feeds that are barely well-formed and want to parse these with a not-so-solid piece of software.
@@ -46,10 +50,10 @@ The Feed Sanitizer scrubs off the dirt and returns germ-free feeds.
 		<p>
 		Please choose the output format of the sanitized feed.
 		</p>
-		<div id="rssbutton">
+		<div id="rssbutton" class="radio">
 			<input type="radio" name="format" id="rssbutton" value="rss" {% ifequal feed_format "rss" %}checked="checked"{% endifequal %} />rss
 		</div>
-		<div id="atombutton">
+		<div id="atombutton" class="radio">
 			<input type="radio" name="format" id="atombutton" value="atom" {% ifequal feed_format "atom" %}checked="checked"{% endifequal %} />atom
 		</div>
 	</div>

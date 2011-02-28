@@ -99,3 +99,43 @@ div#rssbutton {
 div#atombutton {
     background: url('/images/feed-icon-atom-32.png') no-repeat;
 }
+
+div#references {
+    padding: 0 0.5em 0 0.5em;
+    margin-top: 2em;
+    color: #AAA;
+    font-size: smaller;
+    border: 1px solid #EEE;
+    border-top: none;
+    -webkit-border-bottom-left-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-bottomright: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+div#references h2 {
+    margin-bottom: 0em;
+    font-weight: normal;
+} 
+
+div#references p {
+    margin-top: 0.5em;
+}
+
+div#references a {
+    color: #555;
+    text-decoration: none;
+    border-bottom: dashed 1px #777;
+}
+
+div#references a:hover {
+    color: white;
+    background-color: black;
+    border-bottom: none;
+}
+
+div#references span.name {
+    color: #777;
+}

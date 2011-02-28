@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% block title %}It works!{% endblock %}
 {% block extra-head %}
 {% if feed_xml %}
 <script type="text/javascript" src="/scripts/shCore.js"></script>
@@ -46,5 +45,16 @@ You can also follow the <a id="feedlink" class="feedformat_{{feed_format}}" href
 </pre>
 </div>
 {% endif %}
-
+<div id="references">
+	<p><a href="http://HeikoBehrens.net">Heiko Behrens</a> built <span class="name">The Feed Sanitizer</span> with 
+		<a href="http://www.python.org/">Python</a> and 
+		<a href="http://www.allbuttonspressed.com/projects/djangoappengine">djangoappengine</a> 
+		using several open-source libraries such as
+		<a href="http://www.feedparser.org">feedparser</a> by <span class="name">Mark Pilgrim</span> and 
+		<a href="http://alexgorbatchev.com/SyntaxHighlighter">SyntaxHighlighter</a> by <span class="name">Alex Gorbatchev</span>.
+		RSS and ATOM icons were provided by courtesy of 
+		<a href="http://www.feedicons.com">feedicons.com</a> and
+		<a href="http://sniker.blogage.de/entries/2008/2/24/2-Vorschlaege-fuer-ein-offizielles-Atom-Feed-Icon">blogage.de</a>.
+	</p>
+</div>
 {% endblock %}

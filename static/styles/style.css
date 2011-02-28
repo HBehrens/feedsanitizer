@@ -5,11 +5,14 @@ body {
     font-style: normal;
     font-weight: normal;
     line-height: 1.35em;
-}
-
-body {
     padding-left: 5%;
     padding-right: 5%;
+}
+
+div#content {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 form label {
@@ -17,7 +20,7 @@ form label {
 }
 
 div#input, div#result {
-    margin-top: 1em;
+    margin-top: 0.5em;
     padding: 0.5em;
     background: #FAFAFA;
     border: 1px solid #DDDDDD;

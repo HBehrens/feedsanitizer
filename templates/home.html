@@ -7,6 +7,29 @@
 <link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon">
 <script type="text/javascript">SyntaxHighlighter.all();</script>
 {% endif %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		// disable form after submit
+		$('#form').submit(function(){
+			$('#urlsubmit').attr('disabled', 'disabled');
+			$('#progressindicator').show();
+			
+		});
+		// flash result
+		$('div#result').effect('highlight', {color:'#689dde'}, 2000);
+		// show xml code
+		$('#togglecode').click(function(ev){
+			$('div.code').slideToggle();
+			ev.preventDefault();
+		});
+		// select all text for feed url on focus
+		$('div#result form input.url').focus(function(){
+			this.select();
+		}).mouseup(function(e){
+			e.preventDefault()
+		});
+	});
+</script>
 {% endblock %}
 {% block content %}
 <div id="input">
@@ -32,6 +55,7 @@ The Feed Sanitizer scrubs off the dirt and returns germ-free feeds.
 	</div>
 	<hr />
 	<input type="submit" class="submit" id="urlsubmit" />
+	<img id="progressindicator" style="display:none" src="/images/loader.gif" />
 </form>
 </div>
 {% if feed_xml %}
@@ -44,10 +68,10 @@ The Feed Sanitizer scrubs off the dirt and returns germ-free feeds.
 <p>
 You can also follow the <a id="feedlink" class="feedformat_{{feed_format}}" href="{{feed_link}}">link to the sanitized feed</a> to fire up your feed aggregator.
 </p>
-<p>If you are curious, click on "expand source" to see how the result looks like.</p>
-<pre class="brush: xml; class-name: 'code'; gutter: false; collapse: true;">
+<pre class="brush: xml; class-name: 'code'; gutter: false;" style="display:none">
 {{feed_xml}}
 </pre>
+<p>If you are curious, you can <a id="togglecode" href="#">have a look on how the result looks like</a>.</p>
 </div>
 {% endif %}
 <div id="references">

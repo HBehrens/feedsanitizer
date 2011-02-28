@@ -13,20 +13,10 @@ import xml.dom.minidom
 import feedparser
 from django.utils import feedgenerator
 
-def buildfeed(request):
-    """ adapted from feedjack/views.py
-    """
-    if not "url" in request.GET:
-        raise Http404('No URL specified')
-        
-    url = request.GET.getlist("url")[0]
+def buildfeed(url, feed_class, feed_link):
     result = feedparser.parse(url)      
 
-    format = request.GET.get("format", "rss")
-    feedclass = feed_formats[format]
-    feed_link = feed_link = "http://%s%s?%s" % ( request.get_host(), reverse("views.sanitize"), request.GET.urlencode() )
-    
-    feed = feedclass(\
+    feed = feed_class(\
         title=result.feed.title or "feed title",\
         link=result.feed.link or "feed link",\
         feed_url=feed_link,\
@@ -44,35 +34,47 @@ def buildfeed(request):
           )
           
     return feed
-
+    
 feed_formats = {
     "rss": feedgenerators.Rss201rev2FeedModified,
     "atom": feedgenerator.Atom1Feed,
     }
 
+def parse_request(request):
+    urls = request.GET.getlist("url")
+    if len(urls)>0:
+        url = urls[0]
+    else:
+        url = None
+        
+    format = request.GET.get("format", "rss")
+    feed_class = feed_formats[format]
+    feed_link = feed_link = "http://%s%s?%s" % ( request.get_host(), reverse("views.sanitize"), request.GET.urlencode() )
+    return (url, format, feed_class, feed_link)
+
 def userfriendly(request):
     feed = None
     prettyxml = None
-    urls = []
-    url = None
-    format = request.GET.get("format", "rss")
-    feed_link = "http://%s%s?%s" % ( request.get_host(), reverse("views.sanitize"), request.GET.urlencode() )
+    (url, format, feed_class, feed_link) = parse_request(request)
     
-    if "url" in request.GET:
-        urls = request.GET.getlist("url")
-        url = urls[0]
-        feed = buildfeed(request)
+    if url:
+        feed = buildfeed(url, feed_class, feed_link)
         feedxml = StringIO.StringIO()
         feed.write(feedxml, 'utf-8')
         prettyxml = xml.dom.minidom.parseString(feedxml.getvalue()).toprettyxml()
         
     return render_to_response("home.html", {
         "feed": feed, "feed_xml": prettyxml, "feed_link": feed_link, "feed_format": format, 
-        "urls": urls, "first_url": url}
+        "first_url": url}
         )
 
 def sanitize(request):
-    feed = buildfeed(request)
+    (url, format, feed_class, feed_link) = parse_request(request)
+
+    if not url:
+        raise "url not specified"
+    feed = buildfeed(url, feed_class, feed_link)
+
     response = HttpResponse(mimetype=feed.mime_type)
     feed.write(response, 'utf-8')
     return response

@@ -32,8 +32,9 @@
 		$('div#error').effect('highlight', {color:'#ff0000'}, 2000);
 		
 		// show xml code
-		$('#togglecode').click(function(ev){
+		$('a.togglecode').click(function(ev){
 			$('div.code').slideToggle();
+			$('p.togglecode').toggle();
 			ev.preventDefault();
 		});
 		// select all text for feed url on focus
@@ -112,10 +113,11 @@ You can also follow the <a id="feedlink" class="feedformat_{{feed_format}}" href
 Sanitized means, <a href="http://validator.w3.org/feed/check.cgi?url={{feed_link|urlencode}}" target="_blank">you got a valid {{feed_format|upper}} feed</a> according to the W3C. Feel free to 
 <a href="http://validator.w3.org/feed/check.cgi?url={{first_url|urlencode}}" target="_blank">check if your original passes the test</a>, too.
 </p>
+<p class="togglecode">Also, <a class="togglecode" href="#">have a look at the resulting XML</a> (at least if you are keen on embedded XML).</p>
+<p class="togglecode" style="display:none">Thanks, please <a class="togglecode" href="#">hide that XML again</a>.
 <pre class="brush: xml; class-name: 'code'; gutter: false;" style="display:none">
 {{feed_xml}}
 </pre>
-<p>Also, <a id="togglecode" href="#">have a look at the resulting XML</a> (at least if you are keen on embedded XML).</p>
 </div>
 {% endif %}
 <div id="references">

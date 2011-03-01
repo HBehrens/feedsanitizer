@@ -73,7 +73,12 @@ input#urlsubmit {
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f4f4f4), color-stop(100%,#ececec));
 }
 
-input#urlsubmit:hover {
+input#urlsubmit[disabled] {
+    background: none;
+    color: #CCC;
+}
+
+input#urlsubmit:not([disabled]):hover {
     border-color: #3766a1;
     color: white;
     background: -moz-linear-gradient(top, #689dde 0%, #4074b4 100%);

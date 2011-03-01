@@ -15,6 +15,17 @@
 			$('#progressindicator').show();
 			
 		});
+		var validate = function() {
+			var valid = $('#form input.url').val().match(/^https?:\/\//);
+			if(valid)$('#urlsubmit').removeAttr('disabled');
+			else $('#urlsubmit').attr('disabled', 'disabled');
+		};
+		
+		// disable submit button for obviously wrong urls
+		$('#form input.url').change(validate).keyup(validate).focus();
+		// if result is available, focus that
+		$('div#result input.url').focus();
+		
 		// flash result
 		$('div#result').effect('highlight', {color:'#689dde'}, 2000);
 		// flash error

@@ -19,7 +19,7 @@ def buildfeed(url, feed_class, feed_link):
 
     result = feed_class(\
         title=feed.feed.title if "title" in feed.feed else None,\
-        link=feed.feed.link if "link" in feed.feed else None,\
+        link=feed.feed.link if "link" in feed.feed else "",\
         feed_url=feed_link,\
         description="", \
         )

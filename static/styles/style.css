@@ -166,3 +166,7 @@ div#result {
     background-color: #f0f0ff;
 }
 
+p#validator img {
+    display: block;
+    margin: 0.5em 0;
+}

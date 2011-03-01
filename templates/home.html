@@ -81,7 +81,7 @@ The Feed Sanitizer scrubs off the dirt and returns germ-free feeds.
 		</div>
 	</div>
 	<hr />
-	<input type="submit" class="submit" id="urlsubmit" />
+	<input type="submit" class="submit" id="urlsubmit" value="Sanitize" />
 	<img id="progressindicator" style="display:none" src="/images/loader.gif" />
 </form>
 </div>
@@ -107,10 +107,15 @@ format: {{feed_format}}
 <p>
 You can also follow the <a id="feedlink" class="feedformat_{{feed_format}}" href="{{feed_link}}">link to the sanitized feed</a> to fire up your feed aggregator.
 </p>
+<p id="validator">
+<img src="/images/valid-{{feed_format}}.png">	
+Sanitized means, <a href="http://validator.w3.org/feed/check.cgi?url={{feed_link|urlencode}}">you got a valid {{feed_format|upper}} feed</a> according to the W3C. Feel free to 
+<a href="http://validator.w3.org/feed/check.cgi?url={{first_url|urlencode}}">check if your original passes the test</a>, too.
+</p>
 <pre class="brush: xml; class-name: 'code'; gutter: false;" style="display:none">
 {{feed_xml}}
 </pre>
-<p>If you are curious, <a id="togglecode" href="#">have a look at the resulting XML</a> (strictly recommended at least once).</p>
+<p>Also, <a id="togglecode" href="#">have a look at the resulting XML</a> (at least if you are keen on embedded XML).</p>
 </div>
 {% endif %}
 <div id="references">

@@ -17,6 +17,9 @@
 		});
 		// flash result
 		$('div#result').effect('highlight', {color:'#689dde'}, 2000);
+		// flash error
+		$('div#error').effect('highlight', {color:'#ff0000'}, 2000);
+		
 		// show xml code
 		$('#togglecode').click(function(ev){
 			$('div.code').slideToggle();
@@ -62,6 +65,18 @@ The Feed Sanitizer scrubs off the dirt and returns germ-free feeds.
 	<img id="progressindicator" style="display:none" src="/images/loader.gif" />
 </form>
 </div>
+{% if error %}
+<div id="error">
+	<h1>Oops! An error occured...</h1>
+	<p>Please <a href="https://github.com/hbehrens/feedsanitizer/issues" target="_blank">create a new issue for The Feed Sanitizer at GitHub</a> and provide the following text. This will help me to solve this error. 
+	</p>
+	<pre>
+url: {{first_url}}
+format: {{feed_format}}
+{{error}}
+	</pre>
+</div>
+{% endif %}
 {% if feed_xml %}
 <div id="result">
 <h1>You joyfully receive the sanitized result</h1>

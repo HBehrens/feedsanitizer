@@ -18,8 +18,8 @@ def buildfeed(url, feed_class, feed_link):
     feed = feedparser.parse(url)      
 
     result = feed_class(\
-        title=result.feed.title if "title" in result.feed else "feed title",\
-        link=result.feed.link if "link" in result.feed else "feed link",\
+        title=feed.feed.title if "title" in feed.feed else None,\
+        link=feed.feed.link if "link" in feed.feed else None,\
         feed_url=feed_link,\
         description="", \
         )
@@ -29,12 +29,11 @@ def buildfeed(url, feed_class, feed_link):
         item = result.add_item( \
           title = entry.title, \
           link = entry.link, \
+          author_name = entry.author if "author" in entry else None, \
           description = entry.summary, \
           pubdate = updated, \
           unique_id = entry.id\
           )
-        if "author" in entry: 
-            item.author_name = entry.author;
           
     return result
     

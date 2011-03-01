@@ -132,13 +132,13 @@ div#references p {
     margin-top: 0.5em;
 }
 
-div#references a, a#supported {
+div#references a, a.details {
     color: #555;
     text-decoration: none;
     border-bottom: dashed 1px #777;
 }
 
-div#references a:hover, a#supported:hover {
+div#references a:hover, a#details:hover {
     color: white;
     background-color: black;
     border-bottom: none;

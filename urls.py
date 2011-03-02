@@ -8,4 +8,8 @@ urlpatterns = patterns('',
     ('^$', 'views.userfriendly'),
     
     (r'^sanitize$', 'views.sanitize'),
+    
+    (r'^tests$', 'django.views.generic.simple.direct_to_template', {'template':'tests.html'}),
+    
+    (r'^validate$', 'views.validate'),
 )

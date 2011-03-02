@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block extra-head %}
+<script type="text/javascript">
+var feeds = [
+	"http://blogs.itemis.de/?showfeed=1",
+	"http://www.heikobehrens.net/feed/"
+	];
+	
+function validate(url, callback) {
+	$.get("validate", {"url":url}, function(data){
+		callback(data);
+	});
+}
+
+function validateRow(idx) {
+	var row = $('#tests table tbody tr')[idx];
+	var fillcellFunc = function(cellclass) {
+		var cell = $($(row).find("."+cellclass)[0]);
+		console.log(cell);
+		return function(data) {
+			cell.append(data.result);
+		}
+	}
+	
+	var requestValidation = function(url, clazz) {
+		validate(url, fillcellFunc(clazz));
+	}
+	
+	var urlFeed = feeds[idx];
+	var urlRss = "/sanitize?format=rss&url=" + encodeURI(urlFeed);
+	var urlAtom = "/sanitize?format=atom&url=" + encodeURI(urlFeed);
+	
+	requestValidation(urlFeed, "result_origin");
+	requestValidation(urlRss, "result_rss");
+	requestValidation(urlAtom, "result_atom");
+}
+	
+$(document).ready(function(){
+	for(var i=0; i<feeds.length;i++) {
+		var feed = feeds[i];
+		$("#tests table tbody").append('<tr><td class="url">'+feed+'</td><td class="result_origin"></td><td class="result_rss"></td><td class="result_atom"></td>');
+	}
+	
+	for(var i=0;i<feeds.length;i++) {
+		validateRow(i);
+	}
+})
+</script>
+{% endblock %}
+{% block content %}
+<div id="tests">
+	<table border=1>
+		<thead>
+			<tr>
+				<th class="url">URL</th>
+				<th class="result_origin">Original</th>
+				<th class="result_rss">Sanitized RSS</th>
+				<th class="result_atom">Sanitized ATOM</th>
+			</tr>
+			<tbody>
+			</tbody>
+		</thead>	
+	</table>
+</div>	
+{% endblock %}

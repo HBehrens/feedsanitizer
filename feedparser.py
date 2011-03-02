@@ -66,7 +66,7 @@ TIDY_MARKUP = 0
 
 # List of Python interfaces for HTML Tidy, in order of preference.  Only useful
 # if TIDY_MARKUP = 1
-PREFERRED_TIDY_INTERFACES = ["uTidy", "mxTidy"]
+PREFERRED_TIDY_INTERFACES = ["soup", "uTidy", "mxTidy"]
 
 # If you want feedparser to automatically resolve all relative URIs, set this
 # to 1.
@@ -2732,7 +2732,12 @@ def _sanitizeHTML(htmlSource, encoding, _type):
         _tidy = None
         for tidy_interface in PREFERRED_TIDY_INTERFACES:
             try:
-                if tidy_interface == "uTidy":
+                if tidy_interface == "soup":
+                    from BeautifulSoup import BeautifulSoup as b
+                    def _tidy(data, **kwargs):
+                        return str(b(data))
+                    break    
+                elif tidy_interface == "uTidy":
                     from tidy import parseString as _utidy
                     def _tidy(data, **kwargs):
                         return str(_utidy(data, **kwargs))

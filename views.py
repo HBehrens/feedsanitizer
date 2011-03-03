@@ -39,7 +39,7 @@ def buildfeed(url, feed_class, feed_link):
           author_name = entry.author if "author" in entry else "Unknown", \
           description = entry.summary, \
           pubdate = updated, \
-          unique_id = entry.id\
+          unique_id = "http://feedsanitizer.appspot.com/id/%s" % (urllib.quote_plus(entry.id))\
           )
           
     return result

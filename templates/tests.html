@@ -46,7 +46,9 @@ function queueRowValidation(idx) {
 		//console.log(cell);
 		return function(data) {
 			var validatorUrl = "http://validator.w3.org/feed/check.cgi?url=" + escape(data.feed);
-			cell.html('<div class="'+data.result+'"><a href="'+validatorUrl+'" title="'+data.recommendations+'" target="_blank">'+data.details+'</a></div>');
+			var info = data.result==="notyet" ? "" : data.result;
+			var recommendations = (data.recommendations && data.recommendations.length > 0) ? ' ('+data.recommendations.length+')' : '';
+			cell.html('<div class="'+data.result+'"><a href="'+validatorUrl+'" title="'+data.details+'<br/>'+data.recommendations+'" target="_blank">'+info+recommendations+'</a></div>');
 		}
 	}
 	

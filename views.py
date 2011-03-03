@@ -22,8 +22,6 @@ from django.utils import feedgenerator
 
 def buildfeed(url, feed_class, feed_link):
     feed = feedparser.parse(url)      
-    logging.debug(feed_link)
-    logging.debug(fixurl(feed_link))
     result = feed_class(\
         title=feed.feed.title if "title" in feed.feed else None,\
         link=fixurl(feed.feed.link) if "link" in feed.feed else "http://feedsanitizer.appspot.com/",\
@@ -104,7 +102,6 @@ def validate(request):
     parsedUrl = urlparse.urlparse(url)
     # django cannot handle reentrant calls
     if parsedUrl.netloc == request.get_host():
-        logging.debug("re-entrant")
         chainedRequest = HttpRequest()
         chainedRequest.META = request.META
         chainedRequest.GET = QueryDict(parsedUrl.query, mutable=True)
@@ -125,21 +122,21 @@ def validate(request):
     body=BeautifulSoup(validation_html)
     div_main = body.find("div", {"id":"main"})
     h2s = div_main.findAll("h2")
-    
     validation_result = {"Sorry":"invalid", "Congratulations!":"valid"}.get(h2s[0].text)
     validation_details = h2s[0].findNextSibling("p").text
-    if validation_result == "valid" and validation_details != "This is a valid RSS feed.":
-        validation_result = "improvable"
     validation_recommendations = []
     
-    if len(h2s)>=2 and h2s[1].text == "Recommendations":
+    if len(h2s)>=2 and h2s[1].text.startswith("Recom"):
         recommendations = [r.p.text for r in h2s[1].findNextSibling("ul").findAll("li")]
         validation_recommendations += recommendations
+        
+    if validation_result == "valid" and len(validation_recommendations)>0:
+        validation_result = "improvable"
+        
         
     # json
     result = dict(result=validation_result, details=validation_details, recommendations=validation_recommendations, feed=url)
     jsonresult = simplejson.dumps(result)
-    logging.debug(jsonresult)
     return HttpResponse(jsonresult, mimetype='application/json')
     #return HttpResponse(validation_html)
     

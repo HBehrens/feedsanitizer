@@ -9,15 +9,21 @@ var feeds = [
 	];
 	
 var queue = $({});
+var testsstopped = false;
 
 function queueValidation(url, callback) {
 	queue.queue('tests', function(next) {
-		callback({"result":"pending"});
-		$.get("{%url views.validate %}", {"url":url}, function(data){
-			callback(data);
-			// TODO if not cancelled
+		if(testsstopped)
 			next();
-		});
+		else {	
+			callback({"result":"pending", "details":"pending"});
+		
+			$.get("{%url views.validate %}", {"url":url}, function(data){
+				callback(data);
+				// TODO if not cancelled
+				next();
+			});
+		}
 	});
 }
 
@@ -36,7 +42,7 @@ function queueRowValidation(idx) {
 	
 	var queueCellValidation = function(url, clazz) {
 		var func = fillcellFunc(clazz);
-		func({"result":"notyet"});
+		func({"result":"notyet", "details":""});
 		queueValidation(url, func);
 	}
 	
@@ -57,13 +63,21 @@ function queueTests() {
 
 function runtests() {
 	$('#runtests').attr('disabled', 'disabled');
+	$('#stoptests').removeAttr('disabled');
+	testsstopped = false;
 	
 	queueTests();
 	queue.queue("tests", function(next){
 		$('#runtests').removeAttr('disabled');
+		$('#stoptests').attr('disabled', 'disabled');
 		next();
 	});
 	queue.dequeue('tests');
+}
+
+function stoptests() {
+	testsstopped = true;
+	$('#stoptests').attr('disabled', 'disabled');
 }
 	
 $(document).ready(function(){
@@ -90,5 +104,6 @@ $(document).ready(function(){
 		</thead>	
 	</table>
 	<input id="runtests" type="button" value="Run tests" onclick="runtests()" />
+	<input id="stoptests" type="button" value="Stop tests" onclick="stoptests()" disabled="disabled" />
 </div>	
 {% endblock %}

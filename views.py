@@ -36,7 +36,7 @@ def buildfeed(url, feed_class, feed_link):
         item = result.add_item( \
           title = entry.title, \
           link = fixurl(entry.link), \
-          author_name = entry.author if "author" in entry else None, \
+          author_name = entry.author if "author" in entry else "Unknown", \
           description = entry.summary, \
           pubdate = updated, \
           unique_id = entry.id\

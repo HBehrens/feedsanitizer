@@ -137,7 +137,7 @@ def validate(request):
         validation_recommendations += recommendations
         
     # json
-    result = dict(result=validation_result, details=validation_details, recommendations=validation_recommendations)
+    result = dict(result=validation_result, details=validation_details, recommendations=validation_recommendations, feed=url)
     jsonresult = simplejson.dumps(result)
     logging.debug(jsonresult)
     return HttpResponse(jsonresult, mimetype='application/json')

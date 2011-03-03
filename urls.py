@@ -11,5 +11,5 @@ urlpatterns = patterns('',
     
     (r'^tests$', 'django.views.generic.simple.direct_to_template', {'template':'tests.html'}),
     
-    (r'^validate$', 'views.validate'),
+    (r'^validate$', 'testviews.validate'),
 )

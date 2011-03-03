@@ -28,7 +28,7 @@ function queueValidation(url, callback) {
 		else {	
 			callback({"result":"pending", "details":"pending"});
 		
-			$.get("{%url views.validate %}", {"url":url}, function(data){
+			$.get("{%url testviews.validate %}", {"url":url}, function(data){
 				callback(data);
 				// TODO if not cancelled
 				next();

@@ -37,7 +37,7 @@ def buildfeed(url, feed_class, feed_link):
           title = entry.title, \
           link = fixurl(entry.link), \
           author_name = entry.author if "author" in entry else "Unknown", \
-          description = entry.summary, \
+          description = entry.summary if "summary" in entry else None, \
           pubdate = updated, \
           unique_id = "http://feedsanitizer.appspot.com/id/%s" % (urllib.quote_plus(entry.id))\
           )
@@ -132,7 +132,7 @@ def validate(request):
         validation_result = "improvable"
     validation_recommendations = []
     
-    if h2s[1].text == "Recommendations":
+    if len(h2s)>=2 and h2s[1].text == "Recommendations":
         recommendations = [r.p.text for r in h2s[1].findNextSibling("ul").findAll("li")]
         validation_recommendations += recommendations
         

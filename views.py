@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.core.urlresolvers import reverse
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, Http404
+from django.core.urlresolvers import reverse, resolve
 
 import sys, traceback
 import logging
@@ -10,8 +10,9 @@ from time import mktime
 from datetime import datetime
 import xml.dom.minidom
 from misc import fixurl
+from django.http import QueryDict
 
-import urllib, urllib2
+import urllib, urllib2, urlparse
 from django.utils import simplejson
 from BeautifulSoup import BeautifulSoup
 
@@ -100,15 +101,25 @@ def sanitize(request):
 def validate(request):
     # read original feed
     url = request.GET.get("url")
-    f=urllib2.urlopen(url)
-    feed_data=f.read()
+    parsedUrl = urlparse.urlparse(url)
+    # django cannot handle reentrant calls
+    if parsedUrl.netloc == request.get_host():
+        logging.debug("re-entrant")
+        chainedRequest = HttpRequest()
+        chainedRequest.META = request.META
+        chainedRequest.GET = QueryDict(parsedUrl.query, mutable=True)
+        #logging.debug(chainedRequest.GET)
+        r = resolve(parsedUrl.path)
+        #remove HTTP-HEADER
+        feed_data = "\n".join(("%s" % r.func(chainedRequest)).split("\n")[2:])
+    else:
+        f=urllib2.urlopen(url)
+        feed_data= f.read()
     
     # call validator
     params = urllib.urlencode(dict(rawdata=feed_data))
     f=urllib2.urlopen("http://validator.w3.org/feed/check.cgi", params)
     validation_html=f.read()
-    
-    # validation_html=urllib2.urlopen("http://Heikobehrens.net/misc/feedvalidator.html").read()
     
     #analyzing
     body=BeautifulSoup(validation_html)

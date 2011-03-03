@@ -6,9 +6,16 @@ var feeds = [
 	"http://www.heikobehrens.net/feed/"
 	];
 	
+var queue = $({});
+
 function validate(url, callback) {
-	$.get("validate", {"url":url}, function(data){
-		callback(data);
+	queue.queue('tests', function(next) {
+		callback({"result":"pending"});
+		$.get("{%url views.validate %}", {"url":url}, function(data){
+			callback(data);
+			// TODO if not cancelled
+			next();
+		});
 	});
 }
 
@@ -16,34 +23,54 @@ function validateRow(idx) {
 	var row = $('#tests table tbody tr')[idx];
 	var fillcellFunc = function(cellclass) {
 		var cell = $($(row).find("."+cellclass)[0]);
-		console.log(cell);
+		//console.log(cell);
 		return function(data) {
-			cell.append(data.result);
+			cell.text(data.result);
 		}
 	}
 	
 	var requestValidation = function(url, clazz) {
-		validate(url, fillcellFunc(clazz));
+		var func = fillcellFunc(clazz);
+		func({"result":"notyet"});
+		validate(url, func);
 	}
 	
 	var urlFeed = feeds[idx];
-	var urlRss = "/sanitize?format=rss&url=" + encodeURI(urlFeed);
-	var urlAtom = "/sanitize?format=atom&url=" + encodeURI(urlFeed);
+	var urlRss = "http://{{request.META.HTTP_HOST}}{% url views.sanitize %}?format=rss&url=" + encodeURI(urlFeed);
+	var urlAtom = "http://{{request.META.HTTP_HOST}}{% url views.sanitize %}?format=atom&url=" + encodeURI(urlFeed);
 	
 	requestValidation(urlFeed, "result_origin");
 	requestValidation(urlRss, "result_rss");
 	requestValidation(urlAtom, "result_atom");
 }
+
+function runtests() {
+	$('#runtests').attr('disabled', 'disabled');
+	queue.queue("tests", function(next){
+		$('#runtests').removeAttr('disabled');
+		next();
+	});
+	queue.dequeue('tests');
+
+// 	var urlFeed = feeds[1];
+// 	var url = "http://{{request.META.HTTP_HOST}}{% url views.sanitize %}?format=rss&url=" + escape(urlFeed);
+// 	//url = urlFeed;
+// 	$.get("{%url views.validate %}", {"url":url}, function(data){
+// //	$.get(url, {}, function(data){
+// 		console.log(data);
+// 	});
+}
 	
 $(document).ready(function(){
 	for(var i=0; i<feeds.length;i++) {
 		var feed = feeds[i];
-		$("#tests table tbody").append('<tr><td class="url">'+feed+'</td><td class="result_origin"></td><td class="result_rss"></td><td class="result_atom"></td>');
+		$('#tests table tbody').append('<tr><td class="url">'+feed+'</td><td class="result_origin"></td><td class="result_rss"></td><td class="result_atom"></td>');
 	}
 	
 	for(var i=0;i<feeds.length;i++) {
 		validateRow(i);
 	}
+	
 })
 </script>
 {% endblock %}
@@ -61,5 +88,6 @@ $(document).ready(function(){
 			</tbody>
 		</thead>	
 	</table>
+	<input id="runtests" type="button" value="Run tests" onclick="runtests()" />
 </div>	
 {% endblock %}

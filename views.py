@@ -17,7 +17,7 @@ import feedparser
 feedparser.TIDY_MARKUP = 1
 from django.utils import feedgenerator
 
-def buildfeed(url, feed_class, feed_link):
+def buildfeed(url, feed_class, feed_link, ids):
     feed = feedparser.parse(url)      
     result = feed_class(\
         title=feed.feed.title if "title" in feed.feed else None,\
@@ -28,14 +28,16 @@ def buildfeed(url, feed_class, feed_link):
         
     for entry in feed.entries:
         updated = datetime.fromtimestamp(mktime(entry.updated_parsed))
-        item = result.add_item( \
-          title = entry.title, \
-          link = fixurl(entry.link), \
-          author_name = entry.author if "author" in entry else "Unknown", \
-          description = entry.summary if "summary" in entry else None, \
-          pubdate = updated, \
-          unique_id = "http://feedsanitizer.appspot.com/id/%s" % (urllib.quote_plus(entry.id))\
-          )
+        id = "http://feedsanitizer.appspot.com/id/%s" % (urllib.quote_plus(entry.id))
+        if len(ids) == 0 or id in ids:
+            item = result.add_item( \
+              title = entry.title, \
+              link = fixurl(entry.link), \
+              author_name = entry.author if "author" in entry else "Unknown", \
+              description = entry.summary if "summary" in entry else None, \
+              pubdate = updated, \
+              unique_id = id \
+              )
           
     return result
     
@@ -54,17 +56,18 @@ def parse_request(request):
     output_format = request.GET.get("format", "rss")
     feed_class = FEED_FORMATS[output_format]
     feed_link = "http://%s%s?%s" % ( request.get_host(), reverse("views.sanitize"), request.GET.urlencode() )
-    return (url, output_format, feed_class, feed_link)
+    ids = request.GET.getlist("id")
+    return (url, output_format, feed_class, feed_link, ids)
 
 def userfriendly(request):
     feed = None
     prettyxml = None
     error = None
-    (url, output_format, feed_class, feed_link) = parse_request(request)
+    (url, output_format, feed_class, feed_link, ids) = parse_request(request)
     
     if url:
         try:
-            feed = buildfeed(url, feed_class, feed_link)
+            feed = buildfeed(url, feed_class, feed_link, ids)
             feedxml = StringIO.StringIO()
             feed.write(feedxml, 'utf-8')
             prettyxml = xml.dom.minidom.parseString(feedxml.getvalue()).toprettyxml()
@@ -78,11 +81,11 @@ def userfriendly(request):
         )
 
 def sanitize(request):
-    (url, output_format, feed_class, feed_link) = parse_request(request)
+    (url, output_format, feed_class, feed_link, ids) = parse_request(request)
 
     if not url:
         raise "url not specified"
-    feed = buildfeed(url, feed_class, feed_link)
+    feed = buildfeed(url, feed_class, feed_link, ids)
 
     response = HttpResponse(mimetype=feed.mime_type)
     feed.write(response, 'utf-8')

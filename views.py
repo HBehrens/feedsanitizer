@@ -28,7 +28,8 @@ def buildfeed(url, feed_class, feed_link, ids):
         
     for entry in feed.entries:
         updated = datetime.fromtimestamp(mktime(entry.updated_parsed))
-        id = "http://feedsanitizer.appspot.com/id/%s" % (urllib.quote_plus(entry.id))
+        idish = entry.id if "id" in entry else fixurl(entry.link)
+        id = "http://feedsanitizer.appspot.com/id/%s" % (urllib.quote_plus(idish))
         if len(ids) == 0 or id in ids:
             item = result.add_item( \
               title = entry.title, \

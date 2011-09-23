@@ -9,7 +9,7 @@ import StringIO
 from time import mktime
 from datetime import datetime
 import xml.dom.minidom
-from misc import fixurl
+from misc import fixurl, datetimefromparsed, parseTrueNewsDate
 
 import urllib
 
@@ -26,14 +26,25 @@ def buildfeed(url, feed_class, feed_link, ids):
         description="", \
         )
         
+    uniqueIds = []    
     for entry in feed.entries:
-        updated = datetime.fromtimestamp(mktime(entry.updated_parsed))
-        idish = entry.id if "id" in entry else fixurl(entry.link)
+        updated = datetimefromparsed(entry.updated_parsed)
+        entry_link =  entry.link if "link" in entry else entry.links[0]["href"]
+        idish = entry.id if "id" in entry else fixurl(entry_link)
+        
+        # produce unique id
         id = "http://feedsanitizer.appspot.com/id/%s" % (urllib.quote_plus(idish))
+        if id in uniqueIds:
+            counter = 2
+            while "%s-%d" % (id, counter) in uniqueIds:
+                counter += 1
+            id = "%s-%d" % (id, counter)   
+        uniqueIds.append(id)
+                
         if len(ids) == 0 or id in ids:
             item = result.add_item( \
               title = entry.title, \
-              link = fixurl(entry.link), \
+              link = fixurl(entry_link), \
               author_name = entry.author if "author" in entry else "Unknown", \
               description = entry.summary if "summary" in entry else None, \
               pubdate = updated, \
@@ -91,3 +102,5 @@ def sanitize(request):
     response = HttpResponse(mimetype=feed.mime_type)
     feed.write(response, 'utf-8')
     return response
+    
+feedparser.registerDateHandler(parseTrueNewsDate)

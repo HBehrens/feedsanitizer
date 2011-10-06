@@ -89,6 +89,11 @@ class Tests(unittest.TestCase):
         self.assertEquals(fixurl("http://localhost:8000/sanitize?url=http%3A%2F%2Fwww.planeteclipse.org%2Fplanet%2Frss20.xml&format=rss"), "http://localhost:8000/sanitize?url=http%3A%2F%2Fwww.planeteclipse.org%2Fplanet%2Frss20.xml&format=rss")
         self.assertEquals(fixurl("http://HeikoBehrens.net"), "http://heikobehrens.net/")
         self.assertEquals(fixurl("http://User@HeikoBehrens.net"), "http://User@heikobehrens.net/")
+
+    def testRightSingleQuotationMark(self):
+        s = u"Character \u2019"
+        s = s.encode('utf8')
+        self.assertEquals(urllib.quote(s), "Character%20%E2%80%99")
         
 def _test():
     import doctest, misc

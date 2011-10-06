@@ -31,6 +31,7 @@ def buildfeed(url, feed_class, feed_link, ids):
         updated = datetimefromparsed(entry.updated_parsed) if "updated_parsed" in entry else datetime.now()
         entry_link =  entry.link if "link" in entry else entry.links[0]["href"]
         idish = entry.id if "id" in entry else fixurl(entry_link)
+        idish = idish.encode("utf8")
         
         # produce unique id
         id = "http://feedsanitizer.appspot.com/id/%s" % (urllib.quote_plus(idish))
